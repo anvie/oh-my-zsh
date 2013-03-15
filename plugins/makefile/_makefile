@@ -1,0 +1,11 @@
+#compdef cap
+#autoload
+
+if [ -f Makefile ]; then
+  if [[ ! -f .make_targets~ || Makefile -nt .make_targets~ ]]; then
+    echo "\nGenerating .make_targets~..." > /dev/stderr
+#    cap --tasks | grep '#' | cut -d " " -f 2 > .make_targets~
+	cat Makefile | grep '[a-z]*:' -o  | cut -d ' ' -f 1 | sed s/:// > .make_targets~
+  fi
+  compadd `cat .make_targets~`
+fi
